@@ -35,5 +35,35 @@ describe('Input component', () => {
     expect(onChange).toBeCalledTimes(1);
     expect(onChange).toBeCalledWith(newValue);
   });
+
+  it('has an error state', () => {
+    const component = shallow(
+      <Input
+        error
+      />
+    );
+    expect(component.hasClass('error')).toBe(true)
+  });
+
+  it('has a disabled state', () => {
+    const value = 'hellotest';
+    const newValue = 'newValue';
+
+    const onChange = jest.fn();
+
+    const component = shallow(
+      <Input
+        value={value}
+        onChange={onChange}
+        disabled
+      />
+    );
+
+    const e = { target: { value: newValue } }
+    component.find('input').simulate('change', e)
+
+    expect(component.hasClass('disabled')).toBe(true)
+    expect(onChange).toBeCalledTimes(0)
+  })
 });
 
